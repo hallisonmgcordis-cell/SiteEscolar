@@ -1,0 +1,550 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Escola Estadual Paulina Rigotti de Castro</title>
+    <!-- Tailwind CSS CDN -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    colors: {
+                        primary: '#0056b3',
+                        secondary: '#4b5563',
+                        accent: '#10b981',
+                        darkbg: '#121212',
+                        darkcard: '#1e1e1e',
+                        darktext: '#e5e7eb'
+                    }
+                }
+            },
+            darkMode: 'class',
+        }
+
+    </script>
+    <!-- FontAwesome -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        .high-contrast {
+            filter: contrast(140%);
+        }
+    </style>
+</head>
+<body class="bg-gray-50 text-gray-800 transition-colors duration-200 min-h-screen flex flex-col font-sans">
+
+    <!-- Top Accessibility Bar -->
+    <section class="bg-slate-800 text-white text-sm py-2 px-4 sticky top-0 z-50 shadow-md">
+        <div class="max-w-6xl mx-auto flex flex-wrap justify-between items-center gap-2">
+            <div class="flex items-center space-x-2">
+                <i class="fa-solid font-bold text-blue-400 fa-universal-access" aria-hidden="true"></i>
+                <span class="font-semibold">Acessibilidade:</span>
+            </div>
+            <div class="flex items-center space-x-3">
+                <button onclick="changeFontSize(-1)" class="bg-slate-700 hover:bg-slate-600 text-white px-2.5 py-1 rounded text-xs font-bold transition" aria-label="Diminuir tamanho da fonte">A-</button>
+                <button onclick="resetFontSize()" class="bg-slate-700 hover:bg-slate-600 text-white px-2.5 py-1 rounded text-xs font-bold transition" aria-label="Redefinir tamanho da fonte">A</button>
+                <button onclick="changeFontSize(1)" class="bg-slate-700 hover:bg-slate-600 text-white px-2.5 py-1 rounded text-xs font-bold transition" aria-label="Aumentar tamanho da fonte">A+</button>
+                <button onclick="toggleHighContrast()" class="bg-amber-500 hover:bg-amber-600 text-slate-950 font-semibold px-3 py-1 rounded text-xs flex items-center gap-1 transition" aria-label="Alternar alto contraste">
+                    <i class="fa-solid fa-circle-half-stroke" aria-hidden="true"></i> Alto Contraste
+                </button>
+            </div>
+        </div>
+    </section>
+
+    <!-- Header Navigation -->
+    <header class="bg-white dark:bg-darkcard border-b border-gray-200 dark:border-gray-800 shadow-sm transition-colors duration-200">
+        <div class="max-w-6xl mx-auto px-4 py-4 flex justify-between items-center">
+            <!-- Brand Logo -->
+            <a href="#" onclick="showPage('home')" class="flex items-center space-x-3 group">
+                <div class="w-12 h-12 bg-blue-700 text-white rounded-lg flex items-center justify-center font-bold text-xl shadow-md group-hover:bg-blue-800 transition">
+                    EPR
+                </div>
+                <div>
+                    <h1 class="text-xl font-bold text-gray-900 dark:text-white leading-tight">E. E. Paulina Rigotti de Castro</h1>
+                    <p class="text-xs text-gray-500 dark:text-gray-400">Ensino Fundamental e Médio • Machado / MG</p>
+                </div>
+            </a>
+
+            <!-- Desktop Nav -->
+            <nav class="hidden md:flex space-x-1" aria-label="Navegação Principal">
+                <button id="nav-home" onclick="showPage('home')" class="nav-btn px-4 py-2 rounded-md font-medium text-blue-700 bg-blue-50 dark:bg-slate-800 dark:text-blue-400 transition">Início</button>
+                <button id="nav-about" onclick="showPage('about')" class="nav-btn px-4 py-2 rounded-md font-medium text-gray-600 dark:text-gray-300 hover:bg-gray-100 dark:hover:bg-gray-800 transition">Sobre a Instituição</button>
+                <button id="nav-contact" onclick="showPage('contact')" class="nav-btn px-4 py-2 rounded-md font-medium text-gray-600 dark:text-gray-300 hover:bg-gray-100 dark:hover:bg-gray-800 transition">Contato e Localização</button>
+            </nav>
+
+            <!-- Mobile Menu Toggle -->
+            <button onclick="toggleMobileMenu()" class="md:hidden p-2 text-gray-600 dark:text-gray-300 hover:bg-gray-100 dark:hover:bg-gray-800 rounded-md" aria-label="Abrir Menu">
+                <i class="fa-solid fa-bars text-xl" aria-hidden="true"></i>
+            </button>
+        </div>
+
+        <!-- Mobile Menu Dropdown -->
+        <div id="mobile-menu" class="hidden md:hidden bg-white dark:bg-darkcard border-t border-gray-100 dark:border-gray-800 px-4 py-3 space-y-2">
+            <button onclick="showPage('home'); toggleMobileMenu();" class="block w-full text-left px-3 py-2 rounded-md font-medium text-gray-700 dark:text-gray-200 hover:bg-gray-100 dark:hover:bg-gray-800">Início</button>
+            <button onclick="showPage('about'); toggleMobileMenu();" class="block w-full text-left px-3 py-2 rounded-md font-medium text-gray-700 dark:text-gray-200 hover:bg-gray-100 dark:hover:bg-gray-800">Sobre a Instituição</button>
+            <button onclick="showPage('contact'); toggleMobileMenu();" class="block w-full text-left px-3 py-2 rounded-md font-medium text-gray-700 dark:text-gray-200 hover:bg-gray-100 dark:hover:bg-gray-800">Contato e Localização</button>
+        </div>
+    </header>
+
+    <!-- Main Content Dynamic Container -->
+    <main id="main-content" class="flex-grow max-w-6xl w-full mx-auto px-4 py-8">
+
+        <!-- ================= PAGE 1: INÍCIO ================= -->
+        <div id="page-home" class="page-section space-y-10">
+            <!-- Hero Banner -->
+            <section class="bg-gradient-to-r from-blue-700 to-indigo-800 text-white rounded-2xl p-8 md:p-12 shadow-xl relative overflow-hidden">
+                <div class="max-w-2xl relative z-10 space-y-4">
+                    <span class="bg-blue-600/60 backdrop-blur border border-blue-400/30 text-blue-100 text-xs font-semibold px-3 py-1 rounded-full uppercase tracking-wider">Boas-vindas</span>
+                    <h2 class="text-3xl md:text-5xl font-extrabold leading-tight">Construindo o futuro através da educação.</h2>
+                    <p class="text-blue-100 text-base md:text-lg">Seja bem-vindo ao portal oficial da E. E. Paulina Rigotti de Castro. Acompanhe avisos, eventos e novidades da nossa comunidade escolar em um só lugar.</p>
+                    <div class="pt-2">
+                        <button onclick="scrollToNoticias()" class="bg-white text-blue-800 hover:bg-blue-50 font-bold px-6 py-3 rounded-lg shadow transition transform hover:-translate-y-0.5">
+                            Ver avisos do dia <i class="fa-solid fa-arrow-down ml-2" aria-hidden="true"></i>
+                        </button>
+                    </div>
+                </div>
+            </section>
+
+            <!-- Quick Access Cards -->
+            <section class="grid grid-cols-1 md:grid-cols-3 gap-6">
+                <div onclick="showPage('about')" class="bg-white dark:bg-darkcard p-6 rounded-xl border border-gray-200 dark:border-gray-800 shadow-sm hover:shadow-md transition cursor-pointer group">
+                    <div class="w-12 h-12 bg-blue-100 text-blue-700 dark:bg-blue-900/40 dark:text-blue-300 rounded-lg flex items-center justify-center text-xl mb-4 group-hover:scale-110 transition">
+                        <i class="fa-solid fa-school" aria-hidden="true"></i>
+                    </div>
+                    <h3 class="text-lg font-bold text-gray-900 dark:text-white mb-2">Sobre a Escola</h3>
+                    <p class="text-gray-600 dark:text-gray-400 text-sm">Conheça nossa história, missão, valores e a equipe que faz nossa escola acontecer.</p>
+                </div>
+                <div onclick="scrollToNoticias()" class="bg-white dark:bg-darkcard p-6 rounded-xl border border-gray-200 dark:border-gray-800 shadow-sm hover:shadow-md transition cursor-pointer group">
+                    <div class="w-12 h-12 bg-emerald-100 text-emerald-700 dark:bg-emerald-900/40 dark:text-emerald-300 rounded-lg flex items-center justify-center text-xl mb-4 group-hover:scale-110 transition">
+                        <i class="fa-solid fa-bullhorn" aria-hidden="true"></i>
+                    </div>
+                    <h3 class="text-lg font-bold text-gray-900 dark:text-white mb-2">Avisos e Comunicados</h3>
+                    <p class="text-gray-600 dark:text-gray-400 text-sm">Fique por dentro das datas de exames, reuniões de pais e eventos do calendário letivo.</p>
+                </div>
+                <div onclick="showPage('contact')" class="bg-white dark:bg-darkcard p-6 rounded-xl border border-gray-200 dark:border-gray-800 shadow-sm hover:shadow-md transition cursor-pointer group">
+                    <div class="w-12 h-12 bg-purple-100 text-purple-700 dark:bg-purple-900/40 dark:text-purple-300 rounded-lg flex items-center justify-center text-xl mb-4 group-hover:scale-110 transition">
+                        <i class="fa-solid fa-envelope-open-text" aria-hidden="true"></i>
+                    </div>
+                    <h3 class="text-lg font-bold text-gray-900 dark:text-white mb-2">Fale Conosco</h3>
+                    <p class="text-gray-600 dark:text-gray-400 text-sm">Entre em contato via mensagem direta ou veja como chegar à nossa instituição.</p>
+                </div>
+            </section>
+
+            <!-- Dynamic News / Notices Feed (Simulating External API) -->
+            <section id="secao-noticias" class="bg-white dark:bg-darkcard rounded-xl border border-gray-200 dark:border-gray-800 p-6 md:p-8 shadow-sm">
+                <div class="flex flex-col md:flex-row md:items-center justify-between gap-4 mb-6 pb-4 border-b border-gray-100 dark:border-gray-800">
+                    <div>
+                        <h3 class="text-2xl font-bold text-gray-900 dark:text-white flex items-center gap-2">
+                            <i class="fa-solid fa-newspaper text-blue-600" aria-hidden="true"></i> Mural Dinâmico de Avisos & Notícias
+                        </h3>
+                        <p class="text-sm text-gray-500 dark:text-gray-400">Avisos e eventos publicados pela escola.</p>
+                    </div>
+                    <div class="flex items-center gap-2">
+                        <button onclick="filterNews('all')" class="news-filter-btn px-3 py-1.5 rounded-lg text-xs font-semibold bg-blue-600 text-white transition">Todos</button>
+                        <button onclick="filterNews('Aviso')" class="news-filter-btn px-3 py-1.5 rounded-lg text-xs font-semibold bg-gray-100 dark:bg-gray-800 text-gray-700 dark:text-gray-300 transition">Avisos</button>
+                        <button onclick="filterNews('Evento')" class="news-filter-btn px-3 py-1.5 rounded-lg text-xs font-semibold bg-gray-100 dark:bg-gray-800 text-gray-700 dark:text-gray-300 transition">Eventos</button>
+                    </div>
+                </div>
+
+                <!-- Feed Container -->
+                <div id="news-container" class="space-y-4">
+                    <!-- Dynamic rendering target -->
+                </div>
+            </section>
+        </div>
+
+        <!-- ================= PAGE 2: SOBRE A INSTITUIÇÃO ================= -->
+        <div id="page-about" class="page-section hidden space-y-10">
+            <div class="border-b border-gray-200 dark:border-gray-800 pb-4">
+                <h2 class="text-3xl font-extrabold text-gray-900 dark:text-white">Sobre a Instituição</h2>
+                <p class="text-gray-500 dark:text-gray-400">Saiba mais sobre o histórico, valores e corpo docente da E. E. Paulina Rigotti de Castro.</p>
+            </div>
+
+            <!-- Mission, Vision, Values Grid -->
+            <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
+                <div class="bg-white dark:bg-darkcard p-6 rounded-xl border border-gray-200 dark:border-gray-800 shadow-sm">
+                    <div class="text-blue-600 text-2xl mb-3"><i class="fa-solid fa-bullseye" aria-hidden="true"></i></div>
+                    <h3 class="text-lg font-bold text-gray-900 dark:text-white mb-2">Missão</h3>
+                    <p class="text-gray-600 dark:text-gray-300 text-sm leading-relaxed">Promover uma educação inclusiva e de excelência, preparando cidadãos críticos e capacitados para contribuir de forma ética e ativa na sociedade.</p>
+                </div>
+                <div class="bg-white dark:bg-darkcard p-6 rounded-xl border border-gray-200 dark:border-gray-800 shadow-sm">
+                    <div class="text-blue-600 text-2xl mb-3"><i class="fa-solid fa-eye" aria-hidden="true"></i></div>
+                    <h3 class="text-lg font-bold text-gray-900 dark:text-white mb-2">Visão</h3>
+                    <p class="text-gray-600 dark:text-gray-300 text-sm leading-relaxed">Ser referência regional na formação educacional e humana, incentivando o protagonismo juvenil e o desenvolvimento sustentável.</p>
+                </div>
+                <div class="bg-white dark:bg-darkcard p-6 rounded-xl border border-gray-200 dark:border-gray-800 shadow-sm">
+                    <div class="text-blue-600 text-2xl mb-3"><i class="fa-solid fa-heart" aria-hidden="true"></i></div>
+                    <h3 class="text-lg font-bold text-gray-900 dark:text-white mb-2">Valores</h3>
+                    <p class="text-gray-600 dark:text-gray-300 text-sm leading-relaxed">Respeito à diversidade, integridade, compromisso com o aprendizado contínuo, solidariedade e transparência na gestão.</p>
+                </div>
+            </div>
+
+            <!-- Institutional History -->
+            <div class="bg-white dark:bg-darkcard p-8 rounded-xl border border-gray-200 dark:border-gray-800 shadow-sm space-y-4">
+                <h3 class="text-2xl font-bold text-gray-900 dark:text-white flex items-center gap-2">
+                    <i class="fa-solid fa-landmark text-blue-600" aria-hidden="true"></i> Nossa História
+                </h3>
+                <p class="text-gray-600 dark:text-gray-300 leading-relaxed text-sm md:text-base">
+                    A Escola Estadual Paulina Rigotti de Castro tem uma longa tradição no atendimento à comunidade escolar de Machado e região. Voltada à formação de jovens e crianças, a instituição zela pelo ensino público de qualidade, unindo o empenho pedagógico de seus professores ao envolvimento constante dos pais e responsáveis.
+                </p>
+            </div>
+
+            <!-- Team / Board -->
+            <div class="space-y-6">
+                <h3 class="text-2xl font-bold text-gray-900 dark:text-white flex items-center gap-2">
+                    <i class="fa-solid fa-users text-blue-600" aria-hidden="true"></i> Equipe e Direção
+                </h3>
+                <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
+                    <div class="bg-white dark:bg-darkcard p-6 rounded-xl border border-gray-200 dark:border-gray-800 text-center shadow-sm">
+                        <div class="w-20 h-20 mx-auto mb-4 bg-gray-200 dark:bg-gray-700 rounded-full flex items-center justify-center text-gray-500 dark:text-gray-300 text-2xl font-bold">
+                            <i class="fa-solid fa-user-tie" aria-hidden="true"></i>
+                        </div>
+                        <h4 class="font-bold text-gray-900 dark:text-white">Direção Geral</h4>
+                        <p class="text-xs text-blue-600 dark:text-blue-400 font-medium">Gestão Escolar</p>
+                    </div>
+                    <div class="bg-white dark:bg-darkcard p-6 rounded-xl border border-gray-200 dark:border-gray-800 text-center shadow-sm">
+                        <div class="w-20 h-20 mx-auto mb-4 bg-gray-200 dark:bg-gray-700 rounded-full flex items-center justify-center text-gray-500 dark:text-gray-300 text-2xl font-bold">
+                            <i class="fa-solid fa-chalkboard-user" aria-hidden="true"></i>
+                        </div>
+                        <h4 class="font-bold text-gray-900 dark:text-white">Coordenação Pedagógica</h4>
+                        <p class="text-xs text-blue-600 dark:text-blue-400 font-medium">Suporte de Ensino</p>
+                    </div>
+                    <div class="bg-white dark:bg-darkcard p-6 rounded-xl border border-gray-200 dark:border-gray-800 text-center shadow-sm">
+                        <div class="w-20 h-20 mx-auto mb-4 bg-gray-200 dark:bg-gray-700 rounded-full flex items-center justify-center text-gray-500 dark:text-gray-300 text-2xl font-bold">
+                            <i class="fa-solid fa-user-shield" aria-hidden="true"></i>
+                        </div>
+                        <h4 class="font-bold text-gray-900 dark:text-white">Secretaria Escolar</h4>
+                        <p class="text-xs text-blue-600 dark:text-blue-400 font-medium">Atendimento & Documentos</p>
+                    </div>
+                    <div class="bg-white dark:bg-darkcard p-6 rounded-xl border border-gray-200 dark:border-gray-800 text-center shadow-sm">
+                        <div class="w-20 h-20 mx-auto mb-4 bg-gray-200 dark:bg-gray-700 rounded-full flex items-center justify-center text-gray-500 dark:text-gray-300 text-2xl font-bold">
+                            <i class="fa-solid fa-people-group" aria-hidden="true"></i>
+                        </div>
+                        <h4 class="font-bold text-gray-900 dark:text-white">Corpo Docente</h4>
+                        <p class="text-xs text-blue-600 dark:text-blue-400 font-medium">Professores</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- ================= PAGE 3: CONTATO E LOCALIZAÇÃO ================= -->
+        <div id="page-contact" class="page-section hidden space-y-10">
+            <div class="border-b border-gray-200 dark:border-gray-800 pb-4">
+                <h2 class="text-3xl font-extrabold text-gray-900 dark:text-white">Contato e Localização</h2>
+                <p class="text-gray-500 dark:text-gray-400">Entre em contato com nossa equipe ou venha nos visitar.</p>
+            </div>
+
+            <div class="grid grid-cols-1 lg:grid-cols-2 gap-8">
+                <!-- Contact Form -->
+                <div class="bg-white dark:bg-darkcard p-6 md:p-8 rounded-xl border border-gray-200 dark:border-gray-800 shadow-sm space-y-6">
+                    <h3 class="text-xl font-bold text-gray-900 dark:text-white flex items-center gap-2">
+                        <i class="fa-solid fa-paper-plane text-blue-600" aria-hidden="true"></i> Enviar Mensagem
+                    </h3>
+                    <form id="contact-form" onsubmit="handleFormSubmit(event)" class="space-y-4">
+                        <div>
+                            <label for="name" class="block text-xs font-semibold text-gray-700 dark:text-gray-300 uppercase mb-1">Nome Completo</label>
+                            <input type="text" id="name" required class="w-full px-4 py-2.5 rounded-lg border border-gray-300 dark:border-gray-700 bg-white dark:bg-gray-800 text-gray-900 dark:text-white focus:ring-2 focus:ring-blue-500 outline-none transition" placeholder="Seu nome">
+                        </div>
+                        <div>
+                            <label for="email" class="block text-xs font-semibold text-gray-700 dark:text-gray-300 uppercase mb-1">E-mail para Contato</label>
+                            <input type="email" id="email" required class="w-full px-4 py-2.5 rounded-lg border border-gray-300 dark:border-gray-700 bg-white dark:bg-gray-800 text-gray-900 dark:text-white focus:ring-2 focus:ring-blue-500 outline-none transition" placeholder="seuemail@exemplo.com">
+                        </div>
+                        <div>
+                            <label for="subject" class="block text-xs font-semibold text-gray-700 dark:text-gray-300 uppercase mb-1">Assunto</label>
+                            <select id="subject" class="w-full px-4 py-2.5 rounded-lg border border-gray-300 dark:border-gray-700 bg-white dark:bg-gray-800 text-gray-900 dark:text-white focus:ring-2 focus:ring-blue-500 outline-none transition">
+                                <option>Dúvidas Gerais</option>
+                                <option>Secretaria / Matrículas</option>
+                                <option>Coordenação Pedagógica</option>
+                                <option>Outros</option>
+                            </select>
+                        </div>
+                        <div>
+                            <label for="message" class="block text-xs font-semibold text-gray-700 dark:text-gray-300 uppercase mb-1">Mensagem</label>
+                            <textarea id="message" rows="4" required class="w-full px-4 py-2.5 rounded-lg border border-gray-300 dark:border-gray-700 bg-white dark:bg-gray-800 text-gray-900 dark:text-white focus:ring-2 focus:ring-blue-500 outline-none transition" placeholder="Escreva sua mensagem aqui..."></textarea>
+                        </div>
+                        <button type="submit" class="w-full bg-blue-700 hover:bg-blue-800 text-white font-bold py-3 rounded-lg shadow transition">
+                            Enviar Mensagem
+                        </button>
+                    </form>
+                    <div id="form-feedback" class="hidden p-4 rounded-lg bg-emerald-50 text-emerald-800 dark:bg-emerald-950/50 dark:text-emerald-300 text-sm font-medium border border-emerald-200 dark:border-emerald-800">
+                        <i class="fa-solid fa-circle-check mr-2" aria-hidden="true"></i> Mensagem enviada com sucesso! Entraremos em contato em breve.
+                    </div>
+                </div>
+
+                <!-- Contact Info & Google Maps Embed -->
+                <div class="space-y-6">
+                    <div class="bg-white dark:bg-darkcard p-6 rounded-xl border border-gray-200 dark:border-gray-800 shadow-sm space-y-4">
+                        <h3 class="text-xl font-bold text-gray-900 dark:text-white flex items-center gap-2">
+                            <i class="fa-solid fa-location-dot text-blue-600" aria-hidden="true"></i> Informações da Escola
+                        </h3>
+                        <div class="space-y-3 text-sm text-gray-600 dark:text-gray-300">
+                            <p class="flex items-start gap-3">
+                                <i class="fa-solid fa-map-pin text-blue-600 mt-1" aria-hidden="true"></i>
+                                <span><strong>Endereço:</strong> Machado, MG, Brasil</span>
+                            </p>
+                            <p class="flex items-center gap-3">
+                                <i class="fa-solid fa-phone text-blue-600" aria-hidden="true"></i>
+                                <span><strong>Telefone:</strong> (35) 3295-0000</span>
+                            </p>
+                            <p class="flex items-center gap-3">
+                                <i class="fa-solid fa-clock text-blue-600" aria-hidden="true"></i>
+                                <span><strong>Horário de Atendimento:</strong> Segunda a Sexta, 07:00 - 17:00</span>
+                            </p>
+                        </div>
+                    </div>
+
+                    <!-- Google Maps Iframe Integration -->
+                    <div class="bg-white dark:bg-darkcard p-2 rounded-xl border border-gray-200 dark:border-gray-800 shadow-sm overflow-hidden h-72">
+                        <iframe 
+                            title="Mapa da Escola Estadual Paulina Rigotti de Castro"
+                            src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3707.492522731428!2d-45.908166699999995!3d-21.683589899999998!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x94ca14b3e358a18b%3A0xedf4b1c40a0fc777!2sEscola%20Estadual%20Paulina%20Rigotti%20de%20Castro!5e0!3m2!1spt-BR!2sbr!4v1793919090527!5m2!1spt-BR!2sbr" 
+                            class="w-full h-full rounded-lg border-0" 
+                            allowfullscreen="" 
+                            loading="lazy" 
+                            referrerpolicy="strict-origin-when-cross-origin">
+                        </iframe>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+    </main>
+
+    <!-- Footer with Authorship Credits -->
+    <footer class="bg-slate-900 text-slate-400 py-8 border-t border-slate-800 mt-auto">
+        <div class="max-w-6xl mx-auto px-4 space-y-6">
+            <div class="flex flex-col md:flex-row justify-between items-center gap-4 text-center md:text-left">
+                <div>
+                    <h4 class="text-white font-bold text-base">Escola Estadual Paulina Rigotti de Castro</h4>
+                    <p class="text-xs text-slate-400">Desenvolvimento de Aplicação Web Institucional</p>
+                </div>
+                <div class="text-xs text-slate-400">
+                    <p><strong class="text-slate-300">Práticas de Extensão II</strong> — IFSULDEMINAS Campus Machado</p>
+                    <p class="mt-1">Equipe: Victor Hugo Caproni • João Eduardo Silva • Hallison Maria Januário • Tobias Pereira</p>
+                </div>
+            </div>
+            <div class="border-t border-slate-800 pt-4 text-center text-xs text-slate-500">
+                &copy; 2026 Escola Estadual Paulina Rigotti de Castro. Todos os direitos reservados.
+            </div>
+        </div>
+    </footer>
+
+    <!-- JavaScript Logic -->
+    <script>
+        const newsCsvUrl = 'https://docs.google.com/spreadsheets/d/e/2PACX-1vR2I4lZWpHWHyDsWP5iM5VAQkn2zTA2Paj4qAE6djBxvO4aPk7_zcYY75PoxiWseg_fTxtHYJu3XzOO/pub?output=csv';
+        let newsData = [];
+        let newsLoadError = false;
+
+        // Font size control
+        let currentFontSize = 100;
+        function changeFontSize(step) {
+            currentFontSize += step * 5;
+            if (currentFontSize < 85) currentFontSize = 85;
+            if (currentFontSize > 125) currentFontSize = 125;
+            document.documentElement.style.fontSize = `${currentFontSize}%`;
+        }
+        function resetFontSize() {
+            currentFontSize = 100;
+            document.documentElement.style.fontSize = '100%';
+        }
+
+        // Contrast Toggle
+        function toggleHighContrast() {
+            document.documentElement.classList.toggle('dark');
+            document.body.classList.toggle('high-contrast');
+        }
+
+        // SPA Page Navigation
+        function showPage(pageId) {
+            document.querySelectorAll('.page-section').forEach(page => page.classList.add('hidden'));
+            const targetPage = document.getElementById(`page-${pageId}`);
+            if (targetPage) targetPage.classList.remove('hidden');
+
+            document.querySelectorAll('.nav-btn').forEach(btn => {
+                btn.classList.remove('text-blue-700', 'bg-blue-50', 'dark:bg-slate-800', 'dark:text-blue-400');
+                btn.classList.add('text-gray-600', 'dark:text-gray-300');
+            });
+
+            const activeNav = document.getElementById(`nav-${pageId}`);
+            if (activeNav) {
+                activeNav.classList.remove('text-gray-600', 'dark:text-gray-300');
+                activeNav.classList.add('text-blue-700', 'bg-blue-50', 'dark:bg-slate-800', 'dark:text-blue-400');
+            }
+
+            window.scrollTo({ top: 0, behavior: 'smooth' });
+        }
+
+        // Mobile Menu Toggle
+        function toggleMobileMenu() {
+            const menu = document.getElementById('mobile-menu');
+            menu.classList.toggle('hidden');
+        }
+
+        // Scroll to News Section
+        function scrollToNoticias() {
+            showPage('home');
+            setTimeout(() => {
+                const el = document.getElementById('secao-noticias');
+                if (el) el.scrollIntoView({ behavior: 'smooth' });
+            }, 50);
+        }
+
+        function parseCsv(csv) {
+            const rows = [];
+            let row = [];
+            let field = '';
+            let insideQuotes = false;
+
+            for (let i = 0; i < csv.length; i++) {
+                const character = csv[i];
+
+                if (character === '"' && insideQuotes && csv[i + 1] === '"') {
+                    field += '"';
+                    i++;
+                } else if (character === '"') {
+                    insideQuotes = !insideQuotes;
+                } else if (character === ',' && !insideQuotes) {
+                    row.push(field);
+                    field = '';
+                } else if ((character === '\n' || character === '\r') && !insideQuotes) {
+                    if (character === '\r' && csv[i + 1] === '\n') i++;
+                    row.push(field);
+                    if (row.some(value => value.trim())) rows.push(row);
+                    row = [];
+                    field = '';
+                } else {
+                    field += character;
+                }
+            }
+
+            row.push(field);
+            if (row.some(value => value.trim())) rows.push(row);
+            return rows;
+        }
+
+        function normalizeHeader(value) {
+            return value.trim().toLowerCase().normalize('NFD').replace(/[\u0300-\u036f]/g, '');
+        }
+
+        async function loadNews() {
+            const container = document.getElementById('news-container');
+            container.textContent = 'Carregando avisos...';
+
+            try {
+                const response = await fetch(newsCsvUrl);
+                if (!response.ok) {
+                    throw new Error(`A planilha respondeu com status ${response.status}.`);
+                }
+
+                const rows = parseCsv(await response.text());
+                if (rows.length === 0) {
+                    newsData = [];
+                } else {
+                    const headers = rows[0].map(normalizeHeader);
+                    const columns = {
+                        title: headers.indexOf('titulo'),
+                        type: headers.indexOf('tipo'),
+                        date: headers.indexOf('data'),
+                        summary: headers.indexOf('resumo')
+                    };
+
+                    if (Object.values(columns).some(index => index === -1)) {
+                        throw new Error('A planilha precisa ter as colunas Titulo, Tipo, data e resumo.');
+                    }
+
+                    newsData = rows.slice(1).map(row => ({
+                        title: (row[columns.title] || '').trim(),
+                        type: (row[columns.type] || '').trim(),
+                        date: (row[columns.date] || '').trim(),
+                        summary: (row[columns.summary] || '').trim()
+                    })).filter(item => item.title);
+                }
+            } catch (error) {
+                console.error('Não foi possível carregar os avisos da planilha:', error);
+                newsData = [];
+                newsLoadError = true;
+            }
+
+            renderNews();
+        }
+
+        // Render Dynamic Feed
+        function renderNews(filter = 'all') {
+            const container = document.getElementById('news-container');
+            container.innerHTML = '';
+
+            const items = filter === 'all' ? newsData : newsData.filter(item => item.type === filter);
+
+            if (newsLoadError) {
+                container.textContent = 'Não foi possível carregar os avisos. Tente novamente mais tarde.';
+                return;
+            }
+
+            if (items.length === 0) {
+                const emptyMessage = document.createElement('p');
+                emptyMessage.className = 'text-gray-500 text-sm py-4';
+                emptyMessage.textContent = 'Nenhum comunicado encontrado.';
+                container.appendChild(emptyMessage);
+                return;
+            }
+
+            items.forEach(item => {
+                const card = document.createElement('article');
+                card.className = 'p-5 rounded-lg border border-gray-100 dark:border-gray-800 bg-gray-50 dark:bg-gray-800/50 hover:bg-white dark:hover:bg-gray-800 transition shadow-sm';
+                const metadata = document.createElement('div');
+                metadata.className = 'flex items-center justify-between gap-2 mb-2';
+
+                const type = document.createElement('span');
+                type.className = 'text-xs font-bold px-2.5 py-1 rounded-md';
+                const normalizedType = item.type.toLowerCase();
+                if (normalizedType === 'aviso') {
+                    type.classList.add('bg-blue-100', 'text-blue-800', 'dark:bg-blue-900/60', 'dark:text-blue-300');
+                } else if (normalizedType === 'evento') {
+                    type.classList.add('bg-emerald-100', 'text-emerald-800', 'dark:bg-emerald-900/60', 'dark:text-emerald-300');
+                } else {
+                    type.classList.add('bg-gray-100', 'text-gray-800', 'dark:bg-gray-700', 'dark:text-gray-200');
+                }
+                type.textContent = item.type;
+
+                const date = document.createElement('span');
+                date.className = 'text-xs text-gray-500 dark:text-gray-400';
+                const calendarIcon = document.createElement('i');
+                calendarIcon.className = 'fa-regular fa-calendar mr-1';
+                calendarIcon.setAttribute('aria-hidden', 'true');
+                date.append(calendarIcon, document.createTextNode(item.date));
+                metadata.append(type, date);
+
+                const title = document.createElement('h4');
+                title.className = 'text-lg font-bold text-gray-900 dark:text-white mb-1';
+                title.textContent = item.title;
+
+                const summary = document.createElement('p');
+                summary.className = 'text-gray-600 dark:text-gray-300 text-sm';
+                summary.textContent = item.summary;
+
+                card.append(metadata, title, summary);
+                container.appendChild(card);
+            });
+        }
+
+        function filterNews(type) {
+            renderNews(type);
+        }
+
+        // Form Submit Simulation
+        function handleFormSubmit(e) {
+            e.preventDefault();
+            document.getElementById('contact-form').reset();
+            const feedback = document.getElementById('form-feedback');
+            feedback.classList.remove('hidden');
+            setTimeout(() => feedback.classList.add('hidden'), 5000);
+        }
+
+        // Initialize Feed on Load
+        document.addEventListener('DOMContentLoaded', () => {
+            loadNews();
+        });
+    </script>
+</body>
+</html>
